@@ -1,16 +1,17 @@
 {
   "name": "myra-ai",
-  "private": true,
   "version": "1.0.0",
+  "description": "MYRA AI - Futuristic PC Assistant",
   "main": "electron.cjs",
   "type": "module",
+  "author": "Mobeen",
   "scripts": {
     "dev": "concurrently \"npm run backend\" \"npm run frontend\"",
     "frontend": "vite",
     "backend": "node server.js",
     "build": "vite build",
     "electron": "electron .",
-    "app": "npm run build && electron ."
+    "dist": "npm run build && electron-builder"
   },
   "dependencies": {
     "@react-three/drei": "^9.102.6",
@@ -21,6 +22,7 @@
     "lucide-react": "^0.363.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
+    "screenshot-desktop": "^1.15.0",
     "systeminformation": "^5.22.7",
     "three": "^0.163.0"
   },
@@ -29,8 +31,20 @@
     "autoprefixer": "^10.4.19",
     "concurrently": "^8.2.2",
     "electron": "^30.0.0",
+    "electron-builder": "^24.13.3",
     "postcss": "^8.4.38",
     "tailwindcss": "^3.4.1",
     "vite": "^5.2.0"
+  },
+  "build": {
+    "appId": "com.myra.ai",
+    "productName": "MYRA AI",
+    "directories": {
+      "output": "release"
+    },
+    "win": {
+      "target": "nsis",
+      "icon": "public/assets/App_icon.jpg"
+    }
   }
 }
