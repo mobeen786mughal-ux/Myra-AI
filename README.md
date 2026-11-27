@@ -1,11 +1,19 @@
 <div align="center">
-  
+
 # 🤖 MYRA AI - Your Smart PC Assistant
 
 **MYRA (My Real-time AI)** is a futuristic, JARVIS-inspired desktop AI assistant for Windows. It combines a stunning 2D/3D user interface, real-time system monitoring, and an advanced A to Z voice command system, all powered by top-tier AI brains like Groq (Llama 3) and Google Gemini.
 
 [![Download EXE](https://img.shields.io/badge/Download-Latest%20EXE-red?style=for-the-badge&logo=windows)](https://github.com/mobeen786mughal-ux/Myra-AI/releases)
 [![Build Status](https://img.shields.io/badge/Build-Passing-brightgreen?style=for-the-badge&logo=github-actions)](https://github.com/mobeen786mughal-ux/Myra-AI/actions)
+[![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)](https://opensource.org/licenses/MIT)
+
+<br />
+
+<!-- YAHAN AAPKI TASVEER LAGEGI (JPG format) -->
+<img src="./public/assets/myra_preview.jpg" alt="MYRA AI Interface" width="100%" style="max-width: 900px; border-radius: 12px; box-shadow: 0 0 30px rgba(255,0,0,0.4);" />
+
+<br /><br />
 
 </div>
 
