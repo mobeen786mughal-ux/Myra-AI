@@ -8,23 +8,24 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Google Fonts (Tech & Professional) -->
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Orbitron:wght@500;700;900&display=swap" rel="stylesheet">
     
-    <!-- Font Awesome for Icons -->
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
         body {
             font-family: 'Inter', sans-serif;
             background-color: #050508;
-            background-image: 
-                radial-gradient(circle at 15% 50%, rgba(255, 0, 60, 0.15), transparent 25%),
-                radial-gradient(circle at 85% 30%, rgba(255, 0, 60, 0.1), transparent 25%);
             color: white;
             overflow-x: hidden;
+            background-image: 
+                linear-gradient(rgba(255, 0, 60, 0.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 0, 60, 0.03) 1px, transparent 1px);
+            background-size: 30px 30px;
         }
         h1, h2, h3, .font-tech {
             font-family: 'Orbitron', sans-serif;
@@ -33,7 +34,7 @@
             text-shadow: 0 0 20px rgba(255, 0, 60, 0.7), 0 0 40px rgba(255, 0, 60, 0.3);
         }
         .glass-panel {
-            background: rgba(20, 20, 25, 0.6);
+            background: rgba(15, 15, 20, 0.7);
             backdrop-filter: blur(12px);
             border: 1px solid rgba(255, 255, 255, 0.05);
         }
@@ -45,9 +46,6 @@
             box-shadow: 0 0 40px rgba(255, 0, 60, 0.8);
             transform: translateY(-3px) scale(1.02);
         }
-        .image-container {
-            position: relative;
-        }
         .image-container::before {
             content: '';
             position: absolute;
@@ -55,10 +53,13 @@
             background: linear-gradient(45deg, #ff003c, transparent, #ff003c);
             z-index: -1;
             border-radius: 1rem;
-            filter: blur(15px);
-            opacity: 0.5;
+            filter: blur(20px);
+            opacity: 0.6;
         }
-        /* Custom Scrollbar */
+        .feature-card:hover {
+            border-color: rgba(255, 0, 60, 0.5);
+            transform: translateY(-5px);
+        }
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #050508; }
         ::-webkit-scrollbar-thumb { background: #ff003c; border-radius: 4px; }
@@ -75,10 +76,10 @@
                     <span class="font-tech text-xl font-bold tracking-widest">MYRA <span class="text-red-500">AI</span></span>
                 </div>
                 <div class="hidden md:block">
-                    <div class="ml-10 flex items-baseline space-x-8">
-                        <a href="#features" class="hover:text-red-500 transition-colors">Features</a>
-                        <a href="#download" class="hover:text-red-500 transition-colors">Download</a>
-                        <a href="https://github.com/mobeen786mughal-ux/Myra-AI" target="_blank" class="hover:text-red-500 transition-colors"><i class="fab fa-github text-xl"></i></a>
+                    <div class="ml-10 flex items-baseline space-x-8 font-semibold text-sm">
+                        <a href="#features" class="hover:text-red-500 transition-colors">50 Features</a>
+                        <a href="#setup" class="hover:text-red-500 transition-colors">How to Setup</a>
+                        <a href="https://github.com/mobeen786mughal-ux/Myra-AI" target="_blank" class="hover:text-red-500 transition-colors"><i class="fab fa-github text-xl"></i> GitHub</a>
                     </div>
                 </div>
             </div>
@@ -87,25 +88,23 @@
 
     <!-- HERO SECTION -->
     <section class="pt-32 pb-20 px-4 flex flex-col items-center justify-center text-center relative z-10">
-        
-        <div class="inline-block px-4 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-sm font-semibold mb-6 animate-pulse">
-            <i class="fas fa-circle text-[8px] mr-2"></i> SYSTEM ONLINE & READY
+        <div class="inline-block px-4 py-1.5 rounded-full border border-red-500/30 bg-red-500/10 text-red-400 text-xs font-bold mb-6 animate-pulse font-tech tracking-widest">
+            <i class="fas fa-circle text-[8px] mr-2"></i> V1.0.0 NOW AVAILABLE
         </div>
 
-        <h1 class="text-5xl md:text-7xl font-black mb-4 tracking-wider glow-text font-tech">
+        <h1 class="text-6xl md:text-8xl font-black mb-4 tracking-wider glow-text font-tech">
             MYRA <span class="text-red-600">AI</span>
         </h1>
         
-        <p class="text-xl md:text-2xl text-gray-400 max-w-2xl mb-10 font-light">
-            Your Futuristic Smart PC Assistant. Control your computer with your voice, powered by next-gen AI.
+        <p class="text-lg md:text-2xl text-gray-400 max-w-3xl mb-10 font-light leading-relaxed">
+            The Ultimate JARVIS-Style Desktop Assistant. Control your PC with voice, automate tasks, and interact with a stunning 2D/3D avatar.
         </p>
 
-        <!-- SCREENSHOT (Image with Glow) -->
-        <div class="image-container w-full max-w-5xl mb-12 rounded-2xl">
-            <!-- Ensure the image URL is correct -->
+        <!-- SCREENSHOT -->
+        <div class="image-container w-full max-w-5xl mb-12 rounded-2xl relative group">
             <img src="https://raw.githubusercontent.com/mobeen786mughal-ux/Myra-AI/main/public/assets/myra_preview.jpg" 
                  alt="MYRA AI Interface" 
-                 class="w-full rounded-2xl border border-gray-700/50 object-cover shadow-2xl relative z-10" />
+                 class="w-full rounded-2xl border border-gray-700/50 object-cover shadow-2xl relative z-10 group-hover:scale-[1.01] transition-transform duration-500" />
         </div>
 
         <!-- DOWNLOAD BUTTON -->
@@ -115,82 +114,166 @@
                 <i class="fab fa-windows text-2xl"></i>
                 Download for Windows
             </a>
-            <p class="text-sm text-gray-500 font-light mt-2">Compatible with Windows 10 & 11 (64-bit) • Free & Open Source</p>
+            <p class="text-sm text-gray-500 font-light mt-2">Windows 10 & 11 (64-bit) • 117 MB • Free Forever</p>
         </div>
     </section>
 
-    <!-- FEATURES SECTION -->
-    <section id="features" class="py-20 px-4 max-w-7xl mx-auto relative z-10">
+    <!-- 50 FEATURES SECTION -->
+    <section id="features" class="py-20 px-4 max-w-7xl mx-auto relative z-10 border-t border-gray-800/50">
         <div class="text-center mb-16">
-            <h2 class="text-3xl md:text-4xl font-tech font-bold mb-4">POWERFUL <span class="text-red-500">FEATURES</span></h2>
-            <p class="text-gray-400">Everything you need to automate your PC and boost productivity.</p>
+            <h2 class="text-4xl md:text-5xl font-tech font-bold mb-4">EVERYTHING YOU <span class="text-red-500">NEED</span></h2>
+            <p class="text-gray-400 text-lg">50+ Powerful features packed into one seamless interface.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-            <!-- Feature 1 -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition-all duration-300 group">
-                <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-microphone text-2xl text-red-500"></i>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            
+            <!-- Category 1: PC Control -->
+            <div class="glass-panel feature-card p-8 rounded-2xl transition-all duration-300">
+                <div class="flex items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 text-xl"><i class="fas fa-desktop"></i></div>
+                    <h3 class="text-xl font-bold font-tech">System & PC Control</h3>
                 </div>
-                <h3 class="text-xl font-bold mb-3 font-tech">A to Z Voice Commands</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Control your PC completely hands-free. Say "Open Chrome", "Shutdown PC", or "Take Screenshot" and it's done instantly.</p>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Lock PC & Shutdown</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Restart & Sleep Mode</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Take Screenshot</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Empty Recycle Bin</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Open Task Manager</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Volume Up / Down / Mute</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Adjust Screen Brightness</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> System Beep</li>
+                </ul>
             </div>
 
-            <!-- Feature 2 -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition-all duration-300 group">
-                <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-brain text-2xl text-red-500"></i>
+            <!-- Category 2: Apps & Web -->
+            <div class="glass-panel feature-card p-8 rounded-2xl transition-all duration-300">
+                <div class="flex items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 text-xl"><i class="fas fa-window-restore"></i></div>
+                    <h3 class="text-xl font-bold font-tech">App & Web Automation</h3>
                 </div>
-                <h3 class="text-xl font-bold mb-3 font-tech">Dual AI Brain</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Powered by Groq (Llama 3) for ultra-fast responses, and Google Gemini for deep reasoning. You can even use your own API keys.</p>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Open Chrome & VS Code</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Open Notepad & Calculator</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Open CMD & Explorer</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Search Google</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Open WhatsApp Web</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Open Downloads Folder</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Check Weather Update</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Read Latest News</li>
+                </ul>
             </div>
 
-            <!-- Feature 3 -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition-all duration-300 group">
-                <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-user-astronaut text-2xl text-red-500"></i>
+            <!-- Category 3: AI & Productivity -->
+            <div class="glass-panel feature-card p-8 rounded-2xl transition-all duration-300">
+                <div class="flex items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 text-xl"><i class="fas fa-brain"></i></div>
+                    <h3 class="text-xl font-bold font-tech">AI & Productivity</h3>
                 </div>
-                <h3 class="text-xl font-bold mb-3 font-tech">2D & 3D Avatars</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Interact with a beautiful 2D anime assistant or switch to a fully animated 3D VRM model that loads 100% offline.</p>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Summarize Long Text</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Translate Languages</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Write Professional Emails</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Generate Code Snippets</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Fix Grammar</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Tell a Joke</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Daily Motivation Quote</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Create & Read Notes</li>
+                </ul>
             </div>
 
-            <!-- Feature 4 -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition-all duration-300 group">
-                <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-chart-line text-2xl text-red-500"></i>
+            <!-- Category 4: Media -->
+            <div class="glass-panel feature-card p-8 rounded-2xl transition-all duration-300">
+                <div class="flex items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 text-xl"><i class="fas fa-play-circle"></i></div>
+                    <h3 class="text-xl font-bold font-tech">Media & Entertainment</h3>
                 </div>
-                <h3 class="text-xl font-bold mb-3 font-tech">Real-time System Stats</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Keep an eye on your PC's health with live CPU, RAM, Battery, and Temperature monitoring right on the dashboard.</p>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Play / Pause Media</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Next / Previous Track</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Take Webcam Photo</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Record Screen</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Generate AI Images</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Roll Dice / Flip Coin</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Play YouTube Song</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Random Quote Generator</li>
+                </ul>
             </div>
 
-            <!-- Feature 5 -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition-all duration-300 group">
-                <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-bolt text-2xl text-red-500"></i>
+            <!-- Category 5: Utilities -->
+            <div class="glass-panel feature-card p-8 rounded-2xl transition-all duration-300">
+                <div class="flex items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 text-xl"><i class="fas fa-tools"></i></div>
+                    <h3 class="text-xl font-bold font-tech">Advanced Utilities</h3>
                 </div>
-                <h3 class="text-xl font-bold mb-3 font-tech">50+ Quick Tools</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">Open apps, control media, empty recycle bin, and manage files. Everything is just one click away.</p>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Check IP Address</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Ping Website</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Check Disk Usage</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Check CPU Temperature</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Network Speed Test</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> List Files in Directory</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Battery Health Info</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> System Uptime</li>
+                </ul>
             </div>
 
-            <!-- Feature 6 -->
-            <div class="glass-panel p-8 rounded-2xl hover:border-red-500/50 transition-all duration-300 group">
-                <div class="w-14 h-14 bg-red-500/10 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                    <i class="fas fa-shield-alt text-2xl text-red-500"></i>
+            <!-- Category 6: Voice -->
+            <div class="glass-panel feature-card p-8 rounded-2xl transition-all duration-300 border-red-900/30">
+                <div class="flex items-center gap-4 mb-6 border-b border-gray-800 pb-4">
+                    <div class="w-12 h-12 bg-red-500/10 rounded-xl flex items-center justify-center text-red-500 text-xl"><i class="fas fa-microphone-alt"></i></div>
+                    <h3 class="text-xl font-bold font-tech">Voice & AI Brains</h3>
                 </div>
-                <h3 class="text-xl font-bold mb-3 font-tech">Background Mode</h3>
-                <p class="text-gray-400 text-sm leading-relaxed">MYRA doesn't close when you click 'X'. She hides in the system tray, ready to assist you whenever you need.</p>
+                <ul class="space-y-3 text-sm text-gray-400">
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> 100% Offline 2D Avatar</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Interactive 3D VRM Model</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Text-to-Speech Reply</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Groq (Llama 3.3) API</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Google Gemini API</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Custom Voice Selection</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> Background Mode (Tray)</li>
+                    <li><i class="fas fa-check text-red-500 mr-2"></i> A to Z Voice Commands</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- HOW TO SETUP SECTION -->
+    <section id="setup" class="py-20 px-4 max-w-5xl mx-auto relative z-10 border-t border-gray-800/50">
+        <div class="text-center mb-12">
+            <h2 class="text-3xl md:text-4xl font-tech font-bold mb-4">QUICK <span class="text-red-500">SETUP</span></h2>
+            <p class="text-gray-400">Get MYRA up and running in less than 2 minutes.</p>
+        </div>
+
+        <div class="flex flex-col md:flex-row gap-6 justify-center">
+            <div class="glass-panel p-6 rounded-xl text-center flex-1 relative border-t-2 border-t-red-500">
+                <div class="text-4xl font-tech font-black text-gray-800 absolute top-2 right-4">1</div>
+                <i class="fas fa-download text-3xl text-red-500 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">Download & Install</h4>
+                <p class="text-sm text-gray-400">Download the EXE from GitHub releases and run the installer.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-xl text-center flex-1 relative border-t-2 border-t-red-500">
+                <div class="text-4xl font-tech font-black text-gray-800 absolute top-2 right-4">2</div>
+                <i class="fas fa-key text-3xl text-red-500 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">Get API Key</h4>
+                <p class="text-sm text-gray-400">Get a free API key from Groq Console or Google AI Studio.</p>
+            </div>
+            <div class="glass-panel p-6 rounded-xl text-center flex-1 relative border-t-2 border-t-red-500">
+                <div class="text-4xl font-tech font-black text-gray-800 absolute top-2 right-4">3</div>
+                <i class="fas fa-robot text-3xl text-red-500 mb-4"></i>
+                <h4 class="font-bold text-lg mb-2">Launch & Talk</h4>
+                <p class="text-sm text-gray-400">Paste the key in Settings, click the Mic, and say "Hello MYRA".</p>
             </div>
         </div>
     </section>
 
     <!-- FOOTER -->
-    <footer class="border-t border-gray-800 mt-10 py-10 text-center relative z-10">
+    <footer class="border-t border-gray-800 py-10 text-center relative z-10 glass-panel mt-10">
         <div class="flex justify-center gap-6 mb-4">
             <a href="https://github.com/mobeen786mughal-ux/Myra-AI" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fab fa-github"></i></a>
             <a href="https://github.com/mobeen786mughal-ux/Myra-AI/issues" class="text-gray-400 hover:text-white transition-colors text-2xl"><i class="fas fa-bug"></i></a>
         </div>
-        <p class="text-gray-500 text-sm">Created with <i class="fas fa-heart text-red-500"></i> by <a href="https://github.com/mobeen786mughal-ux" class="text-white hover:text-red-500 transition-colors">Mobeen Mughal</a></p>
-        <p class="text-gray-600 text-xs mt-2">&copy; 2024 MYRA AI. All rights reserved.</p>
+        <p class="text-gray-500 text-sm font-semibold">Architected & Developed by <a href="https://github.com/mobeen786mughal-ux" class="text-white hover:text-red-500 transition-colors">Mobeen Mughal</a></p>
+        <p class="text-gray-600 text-xs mt-2">&copy; 2024 MYRA AI • Open Source Project</p>
     </footer>
 
 </body>
