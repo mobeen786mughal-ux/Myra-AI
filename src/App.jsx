@@ -16,9 +16,12 @@ export default function App() {
   const [is3D, setIs3D] = useState(false);
   const [stats, setStats] = useState({ cpu: 0, ram: 0, battery: 100, cpuTemp: 0, diskUsage: 0, uptime: 0 });
   const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+  
+  // AI Settings
   const [aiProvider, setAiProvider] = useState(localStorage.getItem('aiProvider') || 'groq');
   const [apiKey, setApiKey] = useState(localStorage.getItem('apiKey') || '');
   
+  // Chat & Voice States
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
@@ -45,16 +48,23 @@ export default function App() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // --- VOICE TEXT-TO-SPEECH ---
+  // --- VOICE TEXT-TO-SPEECH (With Voice Selection) ---
   const speakText = (text) => {
     window.speechSynthesis.cancel();
     const utterance = new SpeechSynthesisUtterance(text);
+    
+    const savedVoice = localStorage.getItem('voiceType') || 'Google US English';
+    const voices = window.speechSynthesis.getVoices();
+    const selectedVoice = voices.find(v => v.name.includes(savedVoice) || v.lang.includes(savedVoice));
+    
+    if (selectedVoice) utterance.voice = selectedVoice;
+    
     utterance.rate = 1; 
     utterance.pitch = 1.1;
     window.speechSynthesis.speak(utterance);
   };
 
-  // --- VOICE COMMAND ROUTER ---
+  // --- VOICE COMMAND ROUTER (A to Z) ---
   const processVoiceCommand = (text) => {
     const lowerText = text.toLowerCase();
     let action = null;
@@ -103,6 +113,7 @@ export default function App() {
       const transcript = event.results[0][0].transcript;
       setInput(transcript);
 
+      // Check karo ke system command hai ya AI se baat karni hai
       const isSystemCommand = processVoiceCommand(transcript);
       if (!isSystemCommand) {
         handleSend(transcript);
@@ -156,7 +167,7 @@ export default function App() {
   return (
     <div className="flex flex-col h-screen bg-[#07070a] text-gray-300 font-sans overflow-hidden">
       
-      {/* TOP BAR (With Real Window Controls) */}
+      {/* TOP BAR (With Real Window Controls for Electron) */}
       <div className="flex justify-between items-center px-4 py-2 bg-[#0a0a0f] border-b border-gray-800/50" style={{ WebkitAppRegion: 'drag' }}>
         <div className="flex items-center gap-3">
           <div className="w-8 h-8 bg-gradient-to-br from-red-500 to-red-800 rounded-lg flex items-center justify-center font-bold text-white shadow-[0_0_15px_rgba(255,0,0,0.4)]">M</div>
@@ -309,16 +320,30 @@ export default function App() {
       {isSettingsOpen && (
         <div className="absolute inset-0 bg-black/80 flex justify-center items-center z-50">
           <div className="bg-[#111] border border-red-900/50 p-6 rounded-2xl w-80 shadow-[0_0_50px_rgba(255,0,0,0.2)]">
-            <h2 className="text-xl font-bold mb-4 text-red-500">AI Brain Settings</h2>
-            <label className="text-xs text-gray-400 mb-1 block">Select Provider</label>
+            <h2 className="text-xl font-bold mb-4 text-red-500">Settings</h2>
+            
+            <label className="text-xs text-gray-400 mb-1 block">AI Provider</label>
             <select value={aiProvider} onChange={(e) => setAiProvider(e.target.value)} className="w-full bg-[#222] p-2 rounded mb-3 text-white outline-none border border-gray-700">
               <option value="groq">Groq (Llama 3.3)</option>
               <option value="gemini">Google Gemini</option>
             </select>
             
             <label className="text-xs text-gray-400 mb-1 block">API Key</label>
-            <input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="Paste API Key here" className="w-full bg-[#222] p-2 rounded mb-4 text-white outline-none border border-gray-700" />
+            <input type="password" value={apiKey} onChange={(e) => setApiKey(e.target.value)} placeholder="Paste API Key" className="w-full bg-[#222] p-2 rounded mb-3 text-white outline-none border border-gray-700" />
             
+            {/* VOICE SELECTOR */}
+            <label className="text-xs text-gray-400 mb-1 block">MYRA's Voice</label>
+            <select 
+              value={localStorage.getItem('voiceType') || 'Google US English'} 
+              onChange={(e) => localStorage.setItem('voiceType', e.target.value)} 
+              className="w-full bg-[#222] p-2 rounded mb-4 text-white outline-none border border-gray-700"
+            >
+              <option value="Google US English">Female (US)</option>
+              <option value="Google UK English Female">Female (UK)</option>
+              <option value="Microsoft Zira - English (United States)">Zira (Windows)</option>
+              <option value="Microsoft David - English (United States)">David (Male)</option>
+            </select>
+
             <div className="flex gap-2">
               <button onClick={() => setIsSettingsOpen(false)} className="flex-1 bg-gray-800 p-2 rounded hover:bg-gray-700 transition">Cancel</button>
               <button onClick={saveSettings} className="flex-1 bg-red-600 p-2 rounded text-white font-bold hover:bg-red-700 transition">Save</button>
@@ -330,7 +355,7 @@ export default function App() {
   );
 }
 
-// Reusable Button Component
+// Reusable Button Component for Tools Grid
 function ToolBtn({ icon, label, onClick, red }) {
   return (
     <button onClick={onClick} className={`flex flex-col items-center justify-center p-3 bg-[#14141a] border border-gray-800 rounded-xl hover:bg-[#1a1a24] hover:border-red-500/50 transition-all ${red ? 'text-red-500 border-red-900/50' : 'text-gray-400'}`}>
