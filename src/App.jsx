@@ -42,25 +42,74 @@ export default function App() {
     chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // Voice
+  // --- VOICE TEXT-TO-SPEECH ---
   const speakText = (text) => {
+    window.speechSynthesis.cancel(); // Purani awaaz rok do
     const utterance = new SpeechSynthesisUtterance(text);
-    utterance.rate = 1; utterance.pitch = 1.1;
+    utterance.rate = 1; 
+    utterance.pitch = 1.1; // Feminine tone
     window.speechSynthesis.speak(utterance);
   };
 
+  // --- VOICE COMMAND ROUTER (A to Z) ---
+  const processVoiceCommand = (text) => {
+    const lowerText = text.toLowerCase();
+    let action = null;
+
+    // System Commands Mapping
+    if (lowerText.includes('shutdown') || lowerText.includes('turn off pc')) action = 'shutdown';
+    else if (lowerText.includes('restart') || lowerText.includes('reboot')) action = 'restart';
+    else if (lowerText.includes('lock') || lowerText.includes('lock pc')) action = 'lock';
+    else if (lowerText.includes('sleep')) action = 'sleep';
+    else if (lowerText.includes('screenshot') || lowerText.includes('screen shot')) action = 'screenshot';
+    else if (lowerText.includes('chrome') || lowerText.includes('browser')) action = 'open_chrome';
+    else if (lowerText.includes('notepad')) action = 'open_notepad';
+    else if (lowerText.includes('calculator') || lowerText.includes('calc')) action = 'open_calc';
+    else if (lowerText.includes('vs code') || lowerText.includes('vscode')) action = 'open_vscode';
+    else if (lowerText.includes('volume up')) action = 'volume_up';
+    else if (lowerText.includes('volume down')) action = 'volume_down';
+    else if (lowerText.includes('mute')) action = 'mute';
+    else if (lowerText.includes('play') || lowerText.includes('pause')) action = 'play_pause';
+    else if (lowerText.includes('next track') || lowerText.includes('next song')) action = 'next_track';
+    else if (lowerText.includes('task manager')) action = 'task_manager';
+
+    if (action) {
+      // Agar command match ho gayi, toh execute karo
+      handleToolClick(action);
+      speakText(`Executing ${action.replace('_', ' ')}`);
+      return true; // Command handled
+    }
+    return false; // AI ko bhejna padega
+  };
+
+  // --- SPEECH TO TEXT ---
   const startListening = () => {
     const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-    if (!SpeechRecognition) return alert("Use Chrome for Voice.");
+    if (!SpeechRecognition) return alert("Please use Google Chrome for Voice Mode.");
+
     const recognition = new SpeechRecognition();
     recognition.lang = 'en-US';
-    recognition.onstart = () => setIsListening(true);
+    recognition.interimResults = false;
+    
+    recognition.onstart = () => {
+      setIsListening(true);
+      window.speechSynthesis.cancel(); // Agar MYRA bol rahi hai toh usko rok do
+    };
+    
     recognition.onend = () => setIsListening(false);
+    
     recognition.onresult = (event) => {
       const transcript = event.results[0][0].transcript;
       setInput(transcript);
-      handleSend(transcript);
+
+      // Pehle check karo ke yeh system command hai ya AI ko jana chahiye
+      const isSystemCommand = processVoiceCommand(transcript);
+      
+      if (!isSystemCommand) {
+        handleSend(transcript); // AI ko bhej do
+      }
     };
+
     recognition.start();
   };
 
@@ -80,24 +129,24 @@ export default function App() {
     const aiResponse = await getAIResponse(aiProvider, apiKey, messageToSend, messages);
     setMessages((prev) => [...prev, { role: 'assistant', content: aiResponse }]);
     setIsLoading(false);
+    
+    // AI ka jawab bol kar sunao
     speakText(aiResponse);
   };
 
-  // Execute Backend Commands
   const handleToolClick = async (action) => {
     try {
       const res = await axios.post('http://localhost:5000/api/action', { action });
-      if(res.data.message) alert(`Success: ${res.data.message}`);
+      console.log(`Success: ${res.data.message}`);
     } catch (error) {
-      alert(`Error: Could not execute ${action}. Backend offline?`);
+      console.error(`Error: Could not execute ${action}. Backend offline?`);
     }
   };
 
-  // AI-based Features (Weather, Joke, etc)
   const askAI = (prompt) => {
     setInput(prompt);
     handleSend(prompt);
-    setActiveTab('Home'); // Switch to chat view
+    setActiveTab('Home');
   };
 
   const menuItems = [
@@ -145,10 +194,9 @@ export default function App() {
           ) : (
             /* 50 FEATURES GRID */
             <div className="p-6 z-10 relative">
-              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2"><Grid /> All 50 Tools</h2>
+              <h2 className="text-2xl font-bold text-white mb-6 flex items-center gap-2"><Grid /> All Tools</h2>
               
               <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3">
-                {/* SYSTEM & PC CONTROL */}
                 <ToolBtn icon={<Lock/>} label="Lock PC" onClick={() => handleToolClick('lock')} />
                 <ToolBtn icon={<Power/>} label="Shutdown" onClick={() => handleToolClick('shutdown')} red />
                 <ToolBtn icon={<RefreshCw/>} label="Restart" onClick={() => handleToolClick('restart')} />
@@ -159,41 +207,18 @@ export default function App() {
                 <ToolBtn icon={<Volume2/>} label="Vol Up" onClick={() => handleToolClick('volume_up')} />
                 <ToolBtn icon={<Volume2/>} label="Vol Down" onClick={() => handleToolClick('volume_down')} />
                 <ToolBtn icon={<VolumeX/>} label="Mute" onClick={() => handleToolClick('mute')} />
-                <ToolBtn icon={<Sun/>} label="Bright Up" onClick={() => handleToolClick('brightness_up')} />
-
-                {/* APP & WEB */}
                 <ToolBtn icon={<Globe/>} label="Chrome" onClick={() => handleToolClick('open_chrome')} />
                 <ToolBtn icon={<FileCode/>} label="VS Code" onClick={() => handleToolClick('open_vscode')} />
                 <ToolBtn icon={<FileText/>} label="Notepad" onClick={() => handleToolClick('open_notepad')} />
                 <ToolBtn icon={<Calculator/>} label="Calculator" onClick={() => handleToolClick('open_calc')} />
                 <ToolBtn icon={<Terminal/>} label="CMD" onClick={() => handleToolClick('open_cmd')} />
-                <ToolBtn icon={<Monitor/>} label="Explorer" onClick={() => handleToolClick('open_explorer')} />
-                <ToolBtn icon={<Download/>} label="Downloads" onClick={() => handleToolClick('open_downloads')} />
-                <ToolBtn icon={<MessageCircle/>} label="WhatsApp" onClick={() => handleToolClick('open_whatsapp')} />
-
-                {/* MEDIA */}
                 <ToolBtn icon={<Play/>} label="Play/Pause" onClick={() => handleToolClick('play_pause')} />
                 <ToolBtn icon={<SkipForward/>} label="Next Track" onClick={() => handleToolClick('next_track')} />
                 <ToolBtn icon={<SkipBack/>} label="Prev Track" onClick={() => handleToolClick('prev_track')} />
-                <ToolBtn icon={<Activity/>} label="Beep" onClick={() => handleToolClick('system_beep')} />
-
-                {/* AI & PRODUCTIVITY */}
                 <ToolBtn icon={<Globe/>} label="Weather" onClick={() => askAI("What is the weather in my city right now?")} />
-                <ToolBtn icon={<FileText/>} label="Latest News" onClick={() => askAI("Give me the top 3 latest news headlines today.")} />
                 <ToolBtn icon={<MessageSquare/>} label="Tell Joke" onClick={() => askAI("Tell me a short and funny joke.")} />
                 <ToolBtn icon={<Clipboard/>} label="Summarize" onClick={() => askAI("Summarize this: [Paste text here]")} />
-                <ToolBtn icon={<Globe/>} label="Translate" onClick={() => askAI("Translate 'Hello, how are you?' to Urdu.")} />
-                <ToolBtn icon={<FileCode/>} label="Write Email" onClick={() => askAI("Write a professional leave email to my boss.")} />
                 <ToolBtn icon={<HeartPulse/>} label="Motivate Me" onClick={() => askAI("Give me a powerful motivational quote.")} />
-                <ToolBtn icon={<FileCode/>} label="Generate Code" onClick={() => askAI("Write a python script to reverse a string.")} />
-                
-                {/* SYSTEM UTILITIES */}
-                <ToolBtn icon={<Wifi/>} label="IP Address" onClick={() => askAI("What is my IP address and location? (Use web search)")} />
-                <ToolBtn icon={<Activity/>} label="Ping Web" onClick={() => askAI("Ping google.com and tell me the result.")} />
-                <ToolBtn icon={<MonitorPlay/>} label="Disk Space" onClick={() => askAI(`My disk is ${stats.diskUsage}% full. Is that bad?`)} />
-                <ToolBtn icon={<Activity/>} label="CPU Temp" onClick={() => askAI(`My CPU temp is ${stats.cpuTemp}°C. Is it normal?`)} />
-                <ToolBtn icon={<HeartPulse/>} label="Uptime" onClick={() => alert(`PC Uptime: ${stats.uptime} Hours`)} />
-                <ToolBtn icon={<Activity/>} label="System Info" onClick={() => alert(`CPU: ${stats.cpu}% | RAM: ${stats.ram}% | Batt: ${stats.battery}%`)} />
               </div>
             </div>
           )}
@@ -215,14 +240,16 @@ export default function App() {
 
       {/* CHAT BAR */}
       <div className="absolute bottom-6 left-[260px] right-[320px] z-20">
-        <div className="bg-[#0d0d12]/90 border border-red-900/30 rounded-full p-2 flex items-center">
-          <button onClick={startListening} className={`w-12 h-12 rounded-full flex items-center justify-center ml-2 ${isListening ? 'bg-red-600 text-white animate-pulse' : 'bg-red-900/20 text-red-500'}`}><Mic size={20} /></button>
-          <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder="Ask me anything..." className="flex-1 bg-transparent outline-none px-6 text-gray-300" />
+        <div className="bg-[#0d0d12]/90 border border-red-900/30 rounded-full p-2 flex items-center shadow-[0_0_20px_rgba(255,0,0,0.2)]">
+          <button onClick={startListening} className={`w-12 h-12 rounded-full flex items-center justify-center ml-2 transition-all ${isListening ? 'bg-red-600 text-white animate-pulse shadow-[0_0_15px_rgba(255,0,0,0.8)]' : 'bg-red-900/20 text-red-500'}`}>
+            <Mic size={20} />
+          </button>
+          <input type="text" value={input} onChange={(e) => setInput(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && handleSend()} placeholder={isListening ? "Listening..." : "Ask me anything or say 'Open Chrome'..."} className="flex-1 bg-transparent outline-none px-6 text-gray-300" />
           <button onClick={() => handleSend()} disabled={isLoading} className="w-12 h-10 rounded-full bg-red-600 flex items-center justify-center text-white mr-2"><Send size={18} /></button>
         </div>
       </div>
 
-      {/* CHAT OVERLAY (If messages exist) */}
+      {/* CHAT OVERLAY */}
       {messages.length > 0 && activeTab === 'Home' && (
         <div className="absolute right-[320px] top-16 bottom-24 w-80 bg-[#0d0d12]/95 border border-gray-700/50 rounded-2xl p-4 flex flex-col z-30">
           <div className="flex-1 overflow-y-auto flex flex-col gap-3">
@@ -257,7 +284,6 @@ export default function App() {
   );
 }
 
-// Reusable Button Component for Tools
 function ToolBtn({ icon, label, onClick, red }) {
   return (
     <button onClick={onClick} className={`flex flex-col items-center justify-center p-3 bg-[#14141a] border border-gray-800 rounded-xl hover:bg-[#1a1a24] hover:border-red-500/50 transition-all ${red ? 'text-red-500 border-red-900/50' : 'text-gray-400'}`}>
