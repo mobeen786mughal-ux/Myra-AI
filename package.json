@@ -11,7 +11,7 @@
     "backend": "node server.js",
     "build": "vite build",
     "electron": "electron .",
-    "dist": "npm run build && electron-builder"
+    "dist": "npm run build && node convert-icon.cjs && electron-builder"
   },
   "dependencies": {
     "@react-three/drei": "^9.102.6",
@@ -24,7 +24,9 @@
     "react-dom": "^18.2.0",
     "screenshot-desktop": "^1.15.0",
     "systeminformation": "^5.22.7",
-    "three": "^0.163.0"
+    "three": "^0.163.0",
+    "jimp": "^0.22.12",
+    "png-to-ico": "^2.1.8"
   },
   "devDependencies": {
     "@vitejs/plugin-react": "^4.2.1",
@@ -44,7 +46,7 @@
     },
     "win": {
       "target": "nsis",
-      "icon": "public/assets/App_icon.jpg"
+      "icon": "public/assets/App_icon.ico"
     }
   }
 }
